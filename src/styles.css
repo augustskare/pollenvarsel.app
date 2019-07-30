@@ -1,0 +1,78 @@
+:root {
+  --text: #262626;
+  --muted: #545454;
+  --background: #f5f6f7;
+  --content-background: #fff;
+  --divider: rgba(0, 0, 0, 0.08);
+
+  --small: 0.875rem;
+}
+
+@font-face {
+  font-family: Rubik;
+  font-weight: 400;
+  src: url(./fonts/Rubik-Regular-subset.woff2) format('woff2'),
+    url(./fonts/Rubik-Regular-subset.woff) format('woff');
+  unicode-range: u+20-7e, u+c5, u+c6, u+d8, u+e5, u+e6, u+f8;
+  font-display: swap;
+}
+@font-face {
+  font-family: Rubik;
+  font-weight: 500;
+  src: url(./fonts/Rubik-Medium-subset.woff2) format('woff2'),
+    url(./fonts/Rubik-Medium-subset.woff) format('woff');
+  unicode-range: u+20-7e, u+c5, u+c6, u+d8, u+e5, u+e6, u+f8;
+  font-display: swap;
+}
+
+*,
+:after,
+:before {
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 40em) {
+  html {
+    font-size: 110%;
+  }
+}
+
+body {
+  font-family: Rubik, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica,
+    Arial, sans-serif;
+  font-weight: 400;
+  color: var(--text);
+  background-color: var(--background);
+  margin: 0;
+  position: relative;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+div[tabindex='-1']:focus {
+  outline: none;
+}
+
+#gatsby-noscript {
+  display: none;
+}

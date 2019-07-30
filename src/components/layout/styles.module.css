@@ -1,0 +1,40 @@
+.wrap {
+  width: 96%;
+  max-width: 40em;
+  margin: 0 auto;
+}
+
+.header {
+  border-bottom: var(--divider);
+  padding-top: 2rem;
+  padding-bottom: 1rem;
+  composes: content from '../../base.css';
+  composes: section from '../../base.css';
+}
+
+.header-inner {
+  display: flex;
+  flex-direction: column-reverse;
+  composes: wrap;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.back {
+  margin-bottom: 0.5rem;
+  width: min-content;
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  composes: section from '../../base.css';
+}
+
+.footer a {
+  text-decoration: underline;
+}

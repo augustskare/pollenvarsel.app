@@ -1,0 +1,2 @@
+[template.environment]
+  POLLENVARSEL_API_KEY = "api key from NAAF"

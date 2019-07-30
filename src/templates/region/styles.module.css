@@ -1,0 +1,74 @@
+.root {
+  composes: content from '../../base.css';
+  composes: section from '../../base.css';
+}
+
+.tabs {
+  text-align: center;
+  display: flex;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.tabs::before {
+  content: '';
+  background-color: var(--divider);
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.tab {
+  font-size: var(--small);
+  background-color: transparent;
+  border: 0;
+  padding: 0.75rem 1rem 0.5rem;
+  display: block;
+}
+
+.tab:not(:first-of-type) {
+  margin-left: 0.5rem;
+}
+.tab[aria-selected='true'] {
+  border-bottom: 2px solid #000;
+}
+
+.description {
+  font-size: var(--small);
+  border-bottom: 1px solid var(--divider);
+  margin: 1rem;
+  padding-bottom: 0.75rem;
+}
+
+.table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: calc(100% - 2rem);
+  margin: 1rem;
+}
+
+.table-row:not(:last-of-type) td {
+  border-bottom: 1px solid var(--divider);
+}
+
+.table-cell {
+  padding: 0.5rem 0;
+}
+
+.distribution {
+  display: flex;
+  align-items: center;
+  composes: table-cell;
+}
+
+.heading {
+  text-align: left;
+  composes: table-cell;
+  composes: heading from '../../base.css';
+}
+
+.heading:first-of-type {
+  width: 35%;
+}

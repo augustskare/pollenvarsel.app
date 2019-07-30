@@ -1,0 +1,21 @@
+.content {
+  background-color: var(--content-background);
+}
+
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.heading {
+  font-size: var(--small);
+  color: var(--muted);
+  font-weight: 400;
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+}
+
+@media (min-width: 40em) {
+  .content {
+    border-radius: 0.5rem;
+  }
+}

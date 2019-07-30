@@ -1,0 +1,47 @@
+.symbol {
+  --light: #dedede;
+  --green: #7ec9a1;
+  --yellow: #e0c575;
+  --orange: #d0903b;
+  --red: #bd6969;
+
+  margin-right: 0.5rem;
+  display: block;
+}
+
+.symbol:not(.large) {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.large {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+[data-dist='0'] {
+  color: var(--light);
+}
+[data-dist='1'] {
+  color: var(--green);
+}
+[data-dist='2'] {
+  color: var(--yellow);
+}
+[data-dist='3'] {
+  color: var(--orange);
+}
+[data-dist='4'] {
+  color: var(--red);
+}
+[data-dist='1'] {
+  --color-dist2: var(--light);
+}
+[data-dist='1'],
+[data-dist='2'] {
+  --color-dist3: var(--light);
+  --color-dist4: var(--light);
+}
+[data-dist='3'] {
+  --color-dist4: var(--light);
+}
