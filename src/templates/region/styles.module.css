@@ -21,6 +21,7 @@
 }
 
 .tab {
+  color: inherit;
   font-size: var(--small);
   background-color: transparent;
   border: 0;
@@ -32,7 +33,7 @@
   margin-left: 0.5rem;
 }
 .tab[aria-selected='true'] {
-  border-bottom: 2px solid #000;
+  border-bottom: 2px solid;
 }
 
 .description {

@@ -28,6 +28,12 @@
   display: block;
 }
 
+@media (prefers-color-scheme: dark) {
+  .link {
+    background: #141414;
+  }
+}
+
 .forcast {
   display: grid;
   grid-gap: 0.5rem;

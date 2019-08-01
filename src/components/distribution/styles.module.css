@@ -9,6 +9,12 @@
   display: block;
 }
 
+@media (prefers-color-scheme: dark) {
+  .symbol {
+    --light: #444444;
+  }
+}
+
 .symbol:not(.large) {
   width: 1.5rem;
   height: 1.5rem;

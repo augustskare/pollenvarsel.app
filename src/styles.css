@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light dark;
   --text: #262626;
   --muted: #545454;
   --background: #f5f6f7;
@@ -6,6 +7,16 @@
   --divider: rgba(0, 0, 0, 0.08);
 
   --small: 0.875rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #fff;
+    --muted: #d0cece;
+    --background: #202020;
+    --content-background: #181818;
+    --divider: rgba(255, 255, 255, 0.08);
+  }
 }
 
 @font-face {
