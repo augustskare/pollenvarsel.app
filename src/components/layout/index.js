@@ -28,6 +28,7 @@ function Layout(props) {
         titleTemplate={`%s - ${siteMetadata.title}`}
       >
         <html lang="nb-no" />
+        <meta property="og:site_name" content={siteMetadata.title} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={siteMetadata.description} />
         <meta name="description" content={siteMetadata.description} />
@@ -66,6 +67,7 @@ function Layout(props) {
           </a>
           .
         </small>
+        {/* Flower by Maxim Kulikov from the Noun Project */}
       </footer>
     </>
   );
