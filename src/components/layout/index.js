@@ -60,14 +60,23 @@ function Layout(props) {
       </header>
       <main className={styles.wrap}>{props.children}</main>
       <footer className={styles.footer}>
-        <small>
-          Pollendata fra{' '}
-          <a href="http://naaf.no" rel="noopener">
-            Norges Astma- og Allergiforbund
-          </a>
-          .
-        </small>
-        {/* Flower by Maxim Kulikov from the Noun Project */}
+        <details>
+          <summary>Kreditering</summary>
+          <ul>
+            <li>
+              Pollendata fra{' '}
+              <a href="http://naaf.no" rel="noopener">
+                Norges Astma- og Allergiforbund
+              </a>
+              .
+            </li>
+            <li>
+              Bie-ikon av{' '}
+              <a href="https://thenounproject.com/maxim221/">Maxim Kulikov</a>{' '}
+              fra the Noun Project
+            </li>
+          </ul>
+        </details>
       </footer>
     </>
   );

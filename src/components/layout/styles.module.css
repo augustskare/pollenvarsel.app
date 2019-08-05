@@ -31,10 +31,19 @@
 
 .footer {
   text-align: center;
+  font-size: var(--small);
   color: var(--muted);
   composes: section from '../../base.css';
 }
 
 .footer a {
   text-decoration: underline;
+}
+
+.footer ul {
+  text-align: left;
+}
+
+.footer details {
+  display: inline-block;
 }
