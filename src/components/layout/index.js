@@ -10,6 +10,8 @@ function Layout(props) {
   const { site } = useStaticQuery(graphql`
     query {
       site {
+        buildTime
+        buildTimeFormat: buildTime(formatString: "DD.MM.YYYY, HH:mm")
         siteMetadata {
           title
           description
@@ -60,6 +62,10 @@ function Layout(props) {
       </header>
       <main className={styles.wrap}>{props.children}</main>
       <footer className={styles.footer}>
+        <p>
+          Sist oppdatert:{' '}
+          <time dateTime={site.buildTime}>{site.buildTimeFormat}</time>
+        </p>
         <details>
           <summary>Kreditering</summary>
           <ul>
