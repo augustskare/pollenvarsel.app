@@ -29,7 +29,7 @@ function Layout(props) {
         defaultTitle={siteMetadata.title}
         titleTemplate={`%s - ${siteMetadata.title}`}
       >
-        <html lang="nb-no" />
+        <html lang="nb" />
         <meta property="og:site_name" content={siteMetadata.title} />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={siteMetadata.description} />
