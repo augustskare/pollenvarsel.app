@@ -32,6 +32,7 @@ module.exports = {
         icon_options: {
           purpose: 'maskable',
         },
+        crossOrigin: 'use-credentials',
       },
     },
   ],
