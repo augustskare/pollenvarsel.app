@@ -33,6 +33,7 @@ module.exports = {
           purpose: 'maskable',
         },
         crossOrigin: 'use-credentials',
+        legacy: false,
       },
     },
   ],
