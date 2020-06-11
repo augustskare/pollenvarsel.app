@@ -63,7 +63,7 @@ function Index(props) {
 
 export const query = graphql`
   query {
-    featured: pollenvarsel(slug: { eq: "ostlandet-med-oslo" }) {
+    featured: pollenvarsel(slug: { eq: "troms" }) {
       name
       slug
       forecast {
@@ -75,7 +75,7 @@ export const query = graphql`
         }
       }
     }
-    regions: allPollenvarsel(filter: { slug: { nin: "ostlandet-med-oslo" } }) {
+    regions: allPollenvarsel(filter: { slug: { nin: "troms" } }) {
       edges {
         node {
           id
