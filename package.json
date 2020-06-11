@@ -6,13 +6,12 @@
   "license": "MIT",
   "scripts": {
     "start": "gatsby develop",
-    "build": " GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
+    "build": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
     "format": "prettier --write src/**/*.{js,jsx}"
   },
   "dependencies": {
     "@reach/tabs": "^0.10.3",
     "classnames": "^2.2.6",
-    "date-fns": "^2.14.0",
     "gatsby": "^2.23.3",
     "gatsby-plugin-manifest": "^2.4.11",
     "gatsby-plugin-react-helmet": "^3.3.4",

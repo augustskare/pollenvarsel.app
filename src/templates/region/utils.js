@@ -1,19 +1,18 @@
-import { differenceInCalendarDays } from 'date-fns';
-
+const MILLISECONDS_IN_DAY = 86400000;
 function dayInWords(d) {
-  const today = new Date();
-  const diff = differenceInCalendarDays(today, new Date(d));
+  const diff = Math.round((new Date(d) - new Date()) / MILLISECONDS_IN_DAY);
 
   switch (diff) {
-    case 1: {
+    case -2: {
       return 'I går';
     }
-    case 0: {
+    case -1: {
       return 'I dag';
     }
-    case -1: {
+    case 0: {
       return 'I morgen';
     }
+
     default: {
       return diff;
     }
