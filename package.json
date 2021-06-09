@@ -1,26 +1,39 @@
 {
-  "name": "pollenvarsel.app",
+  "name": "Pollenvarsel",
+  "description": "Daglig pollenvarsel for hele Norge",
   "version": "0.1.0",
   "author": "August Skare <post@augustskare.no>",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "gatsby develop",
-    "build": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages",
+    "start": "remix run",
+    "build": "remix build",
+    "run": "remix-serve build",
     "format": "prettier --write src/**/*.{js,jsx}"
   },
   "dependencies": {
-    "@reach/tabs": "^0.10.3",
+    "@reach/tabs": "^0.15.0",
+    "@remix-run/node": "^0.17.5",
+    "@remix-run/react": "^0.17.5",
+    "@remix-run/serve": "^0.17.5",
     "classnames": "^2.2.6",
-    "gatsby": "^2.23.3",
-    "gatsby-plugin-manifest": "^2.4.11",
-    "gatsby-plugin-react-helmet": "^3.3.4",
-    "gatsby-source-pollenvarsel": "^1.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-helmet": "^6.1.0"
+    "dotenv": "^10.0.0",
+    "fast-xml-parser": "^3.19.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^6.0.0-beta.0",
+    "remix": "^0.17.5"
   },
   "devDependencies": {
-    "prettier": "1.17.0"
-  }
+    "@remix-run/dev": "^0.17.5",
+    "@types/react": "^17.0.9",
+    "@types/react-dom": "^17.0.6",
+    "prettier": "2.3.1",
+    "typescript": "^4.3.2"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false
 }
