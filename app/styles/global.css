@@ -141,3 +141,25 @@ div[tabindex='-1']:focus {
 .footer a {
   text-decoration: underline;
 }
+
+/* Index */
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-item {
+  margin: 0 0.75rem;
+  padding: 0.75rem 0;
+}
+.list-item:not(:last-of-type) {
+  border-bottom: 1px solid var(--divider);
+}
+
+.description {
+  font-size: var(--small);
+  color: var(--muted);
+  margin: 0.25rem 0 0;
+}

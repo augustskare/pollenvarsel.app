@@ -1,4 +1,9 @@
-import type { LinksFunction, LoaderFunction, MetaFunction } from 'remix';
+import {
+  LinksFunction,
+  LoaderFunction,
+  MetaFunction,
+  usePendingLocation,
+} from 'remix';
 import { Meta, Links, Scripts, LiveReload } from 'remix';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 
