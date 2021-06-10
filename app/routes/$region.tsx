@@ -36,7 +36,7 @@ export let loader: LoaderFunction = async ({ params }) => {
 };
 
 function Region() {
-  const region = useRouteData();
+  const region = useRouteData<Region>();
 
   return (
     <>

@@ -35,19 +35,7 @@ export let loader: LoaderFunction = async () => {
 };
 
 function Index() {
-  let data = useRouteData<
-    {
-      id: number;
-      name: string;
-      forecast: {
-        date: string;
-        distribution: number;
-        description: string;
-        pollen: string[];
-      }[];
-      slug: string;
-    }[]
-  >();
+  let data = useRouteData<Region[]>();
   const featured = data[0];
 
   return (
