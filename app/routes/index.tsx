@@ -1,11 +1,11 @@
 import type { LoaderFunction, LinksFunction } from "remix";
 import { useRouteData } from "remix";
 import { Link } from "react-router-dom";
-import parser from "fast-xml-parser";
 
 import { Layout } from "../components/layout";
 import { Distribution } from "../components/distribution";
-import { lowerCaseObjectKeys, normalizeForecast } from "../forecast";
+
+import { get } from "../data";
 
 import styles from "../styles/index.css";
 
@@ -14,25 +14,7 @@ export let links: LinksFunction = () => {
 };
 
 export let loader: LoaderFunction = async () => {
-  const resp = await fetch(
-    `http://xml.pollenvarslingen.no/pollenvarsel.asmx/GetAllRegions?userKey=${process.env.POLLENVARSEL_API_KEY}`
-  );
-  const xml = await resp.text();
-  const data = parser.parse(xml).RegionForecast.Days.RegionDay;
-
-  return normalizeForecast(
-    data.map((day) => {
-      return {
-        date: day.Date,
-        regions: day.Regions.Region.map((region) => {
-          return {
-            ...lowerCaseObjectKeys(region),
-            pollen: region.PollenTypes.Pollen.map(lowerCaseObjectKeys),
-          };
-        }),
-      };
-    })
-  );
+  return get();
 };
 
 function Index() {

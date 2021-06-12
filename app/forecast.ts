@@ -1,5 +1,5 @@
-export function normalizeForecast(_forecast) {
-  let forecast = {};
+export function normalizeForecast(_forecast: RawRegion[]) {
+  let forecast: Record<number, Region> = {};
   _forecast.forEach((day) => {
     day.regions.forEach(({ name, id, ...region }) => {
       forecast[id] = forecast[id] || {
@@ -26,16 +26,16 @@ export function normalizeForecast(_forecast) {
   return Object.entries(forecast).map(([_, f]) => f);
 }
 
-export function lowerCaseObjectKeys(obj) {
-  let newObj = {};
+export function objectKeysToLowerCase(obj: Record<string, any>) {
+  let newObj: Record<string, any> = {};
   Object.entries(obj).forEach(([key, value]) => {
     newObj[key.toLowerCase()] = value;
   });
   return newObj;
 }
 
-function formatDescription(pollen) {
-  const distribution = {};
+function formatDescription(pollen: Pollen[]) {
+  const distribution: Record<string, string[]> = {};
 
   pollen
     .filter(({ distribution }) => distribution)
@@ -57,18 +57,17 @@ function formatDescription(pollen) {
   return capitalize(short_description.toLowerCase()) + ".";
 }
 
-function toSlug(string) {
+function toSlug(string: string) {
   return string.replace(/ø|Ø/g, "o").replace(/\s/g, "-").toLowerCase();
 }
 
-function capitalize(s) {
+function capitalize(s: string) {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function arrayToSentence(arr) {
-  if (arr.length === 1) {
-    return arr[0];
-  }
-  return `${arr.slice(0, arr.length - 1).join(", ")} og ${arr.slice(-1)}`;
+function arrayToSentence(arr: string[]) {
+  // @ts-ignore
+  const formatter = new Intl.ListFormat("no");
+  return formatter.format(arr);
 }

@@ -1,13 +1,11 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
 import { useRouteData } from "remix";
-import parser from "fast-xml-parser";
 
-import { relativeTimeString } from "../utils";
-import { normalizeForecast, lowerCaseObjectKeys } from "../forecast";
 import { Distribution } from "../components/distribution";
 import { Layout } from "../components/layout";
 import styles from "../styles/region.css";
+import { get } from "../data";
 
 export let meta: MetaFunction = ({ data }) => {
   return {
@@ -20,27 +18,7 @@ export let links: LinksFunction = () => {
 };
 
 export let loader: LoaderFunction = async ({ params }) => {
-  const resp = await fetch(
-    `http://xml.pollenvarslingen.no/pollenvarsel.asmx/GetAllRegions?userKey=${process.env.POLLENVARSEL_API_KEY}`
-  );
-  const xml = await resp.text();
-  const data = parser.parse(xml).RegionForecast.Days.RegionDay;
-
-  const forecast = normalizeForecast(
-    data.map((day) => {
-      return {
-        date: relativeTimeString(new Date(day.Date)),
-        regions: day.Regions.Region.map((region) => {
-          return {
-            ...lowerCaseObjectKeys(region),
-            pollen: region.PollenTypes.Pollen.map(lowerCaseObjectKeys),
-          };
-        }),
-      };
-    })
-  );
-
-  return forecast.find((f) => f.slug === params.region);
+  return get(params.region);
 };
 
 function Region() {
