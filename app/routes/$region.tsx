@@ -5,6 +5,7 @@ import parser from 'fast-xml-parser';
 
 import { normalizeForecast, lowerCaseObjectKeys } from '../forecast';
 import { Distribution } from '../components/distribution';
+import { Layout } from '../components/layout';
 import styles from '../styles/region.css';
 
 export let links: LinksFunction = () => {
@@ -39,7 +40,7 @@ function Region() {
   const region = useRouteData<Region>();
 
   return (
-    <>
+    <Layout title={region.name}>
       <Tabs className="content section">
         <TabList className="tabs">
           {region.forecast.map((forecast) => {
@@ -83,7 +84,7 @@ function Region() {
           })}
         </TabPanels>
       </Tabs>
-    </>
+    </Layout>
   );
 }
 

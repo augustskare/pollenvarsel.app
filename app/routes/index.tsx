@@ -3,6 +3,7 @@ import { useRouteData } from 'remix';
 import { Link } from 'react-router-dom';
 import parser from 'fast-xml-parser';
 
+import { Layout } from '../components/layout';
 import { Distribution } from '../components/distribution';
 import { lowerCaseObjectKeys, normalizeForecast } from '../forecast';
 
@@ -39,7 +40,7 @@ function Index() {
   const featured = data[0];
 
   return (
-    <>
+    <Layout>
       <section className="section">
         <h2 className="heading">Din plassering</h2>
 
@@ -82,7 +83,7 @@ function Index() {
           })}
         </ul>
       </section>
-    </>
+    </Layout>
   );
 }
 

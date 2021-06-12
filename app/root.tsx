@@ -1,11 +1,6 @@
-import {
-  LinksFunction,
-  LoaderFunction,
-  MetaFunction,
-  usePendingLocation,
-} from 'remix';
+import { LinksFunction, LoaderFunction, MetaFunction } from 'remix';
 import { Meta, Links, Scripts, LiveReload } from 'remix';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
 import stylesUrl from './styles/global.css';
 
@@ -47,35 +42,9 @@ function Document({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const location = useLocation();
-  const root = location.pathname === '/';
-
   return (
     <Document>
-      <header className="header content section">
-        <div className="header-inner wrap">
-          <h1 className="title">Pollenvarsel</h1>
-          {!root ? (
-            <Link className="back" to="/">
-              Tilbake
-            </Link>
-          ) : null}
-        </div>
-      </header>
-
-      <main className="wrap">
-        <Outlet />
-      </main>
-
-      <footer className="footer section">
-        <p>
-          Pollendata fra{' '}
-          <a href="http://naaf.no" rel="noopener">
-            Norges Astma- og Allergiforbund
-          </a>
-          .
-        </p>
-      </footer>
+      <Outlet />
     </Document>
   );
 }
