@@ -1,5 +1,5 @@
 import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
-import type { LinksFunction, LoaderFunction } from "remix";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
 import { useRouteData } from "remix";
 import parser from "fast-xml-parser";
 
@@ -8,6 +8,12 @@ import { normalizeForecast, lowerCaseObjectKeys } from "../forecast";
 import { Distribution } from "../components/distribution";
 import { Layout } from "../components/layout";
 import styles from "../styles/region.css";
+
+export let meta: MetaFunction = ({ data }) => {
+  return {
+    title: data.name + " | Pollenvarsel",
+  };
+};
 
 export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
