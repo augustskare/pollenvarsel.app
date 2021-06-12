@@ -1,16 +1,16 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from '@reach/tabs';
-import type { LinksFunction, LoaderFunction } from 'remix';
-import { useRouteData } from 'remix';
-import parser from 'fast-xml-parser';
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
+import type { LinksFunction, LoaderFunction } from "remix";
+import { useRouteData } from "remix";
+import parser from "fast-xml-parser";
 
-import { relativeTimeString } from '../utils';
-import { normalizeForecast, lowerCaseObjectKeys } from '../forecast';
-import { Distribution } from '../components/distribution';
-import { Layout } from '../components/layout';
-import styles from '../styles/region.css';
+import { relativeTimeString } from "../utils";
+import { normalizeForecast, lowerCaseObjectKeys } from "../forecast";
+import { Distribution } from "../components/distribution";
+import { Layout } from "../components/layout";
+import styles from "../styles/region.css";
 
 export let links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: styles }];
+  return [{ rel: "stylesheet", href: styles }];
 };
 
 export let loader: LoaderFunction = async ({ params }) => {

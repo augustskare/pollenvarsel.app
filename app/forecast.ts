@@ -16,7 +16,7 @@ export function normalizeForecast(_forecast) {
         pollen: region.pollen.map(({ description, ...pollen }) => {
           return {
             ...pollen,
-            description: description.replace(' spredning', ''),
+            description: description.replace(" spredning", ""),
           };
         }),
       });
@@ -46,7 +46,7 @@ function formatDescription(pollen) {
     });
 
   if (!Object.keys(distribution).length) {
-    return 'Ingen spredning av pollen.';
+    return "Ingen spredning av pollen.";
   }
 
   let short_description = arrayToSentence(
@@ -54,15 +54,15 @@ function formatDescription(pollen) {
       ([key, value]) => `${key} fra ${arrayToSentence(value)}`
     )
   );
-  return capitalize(short_description.toLowerCase()) + '.';
+  return capitalize(short_description.toLowerCase()) + ".";
 }
 
 function toSlug(string) {
-  return string.replace(/ø|Ø/g, 'o').replace(/\s/g, '-').toLowerCase();
+  return string.replace(/ø|Ø/g, "o").replace(/\s/g, "-").toLowerCase();
 }
 
 function capitalize(s) {
-  if (typeof s !== 'string') return '';
+  if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
@@ -70,5 +70,5 @@ function arrayToSentence(arr) {
   if (arr.length === 1) {
     return arr[0];
   }
-  return `${arr.slice(0, arr.length - 1).join(', ')} og ${arr.slice(-1)}`;
+  return `${arr.slice(0, arr.length - 1).join(", ")} og ${arr.slice(-1)}`;
 }

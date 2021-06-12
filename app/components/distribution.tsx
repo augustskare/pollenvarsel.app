@@ -4,9 +4,9 @@ const SIZE = {
 };
 
 function Distribution(props) {
-  let classNames = 'symbol';
+  let classNames = "symbol";
   if (props.large) {
-    classNames += ' large';
+    classNames += " large";
   }
 
   return (
@@ -21,25 +21,25 @@ function Distribution(props) {
         fill="currentColor"
         r="4"
         {...SIZE}
-        style={{ fill: 'var(--color-dist1, currentColor)' }}
+        style={{ fill: "var(--color-dist1, currentColor)" }}
       />
       <circle
         stroke="currentColor"
         r="6.5"
         {...SIZE}
-        style={{ stroke: 'var(--color-dist2, currentColor)' }}
+        style={{ stroke: "var(--color-dist2, currentColor)" }}
       />
       <circle
         stroke="currentColor"
         r="9.5"
         {...SIZE}
-        style={{ stroke: 'var(--color-dist3, currentColor)' }}
+        style={{ stroke: "var(--color-dist3, currentColor)" }}
       />
       <circle
         stroke="currentColor"
         r="12.5"
         {...SIZE}
-        style={{ stroke: 'var(--color-dist4, currentColor)' }}
+        style={{ stroke: "var(--color-dist4, currentColor)" }}
       />
     </svg>
   );

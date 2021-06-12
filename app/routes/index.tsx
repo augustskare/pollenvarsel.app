@@ -1,16 +1,16 @@
-import type { LoaderFunction, LinksFunction } from 'remix';
-import { useRouteData } from 'remix';
-import { Link } from 'react-router-dom';
-import parser from 'fast-xml-parser';
+import type { LoaderFunction, LinksFunction } from "remix";
+import { useRouteData } from "remix";
+import { Link } from "react-router-dom";
+import parser from "fast-xml-parser";
 
-import { Layout } from '../components/layout';
-import { Distribution } from '../components/distribution';
-import { lowerCaseObjectKeys, normalizeForecast } from '../forecast';
+import { Layout } from "../components/layout";
+import { Distribution } from "../components/distribution";
+import { lowerCaseObjectKeys, normalizeForecast } from "../forecast";
 
-import styles from '../styles/index.css';
+import styles from "../styles/index.css";
 
 export let links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: styles }];
+  return [{ rel: "stylesheet", href: styles }];
 };
 
 export let loader: LoaderFunction = async () => {

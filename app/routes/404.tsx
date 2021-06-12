@@ -1,9 +1,9 @@
-import type { MetaFunction } from 'remix';
+import type { MetaFunction } from "remix";
 
-import { Layout } from '../components/layout';
+import { Layout } from "../components/layout";
 
 export let meta: MetaFunction = () => {
-  return { title: '404' };
+  return { title: "404" };
 };
 
 export default function FourOhFour() {

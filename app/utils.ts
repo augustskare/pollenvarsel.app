@@ -1,5 +1,5 @@
-const rtf = new Intl.RelativeTimeFormat('no', {
-  numeric: 'auto',
+const rtf = new Intl.RelativeTimeFormat("no", {
+  numeric: "auto",
 });
 
 function relativeTimeString(date: Date) {
@@ -11,7 +11,7 @@ function relativeTimeString(date: Date) {
 
   const diff = date.getTime() - today.getTime();
   const days = diff / 86400000;
-  const string = rtf.format(days, 'day');
+  const string = rtf.format(days, "day");
 
   return string.charAt(0).toUpperCase() + string.slice(1);
 }

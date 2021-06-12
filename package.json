@@ -9,7 +9,7 @@
     "start": "remix run",
     "build": "remix build",
     "run": "remix-serve build",
-    "format": "prettier --write src/**/*.{js,jsx}"
+    "format": "prettier --write app/**/*.{ts,tsx}"
   },
   "dependencies": {
     "@reach/tabs": "^0.15.0",
