@@ -3,6 +3,7 @@ import type { LinksFunction, LoaderFunction } from 'remix';
 import { useRouteData } from 'remix';
 import parser from 'fast-xml-parser';
 
+import { relativeTimeString } from '../utils';
 import { normalizeForecast, lowerCaseObjectKeys } from '../forecast';
 import { Distribution } from '../components/distribution';
 import { Layout } from '../components/layout';
@@ -22,7 +23,7 @@ export let loader: LoaderFunction = async ({ params }) => {
   const forecast = normalizeForecast(
     data.map((day) => {
       return {
-        date: day.Date,
+        date: relativeTimeString(new Date(day.Date)),
         regions: day.Regions.Region.map((region) => {
           return {
             ...lowerCaseObjectKeys(region),

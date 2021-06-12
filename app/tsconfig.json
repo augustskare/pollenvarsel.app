@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "lib": ["DOM", "DOM.Iterable", "ES2019", "ES2020"],
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",

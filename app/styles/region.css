@@ -1,3 +1,7 @@
+:root {
+  --reach-tabs: 1;
+}
+
 .tabs {
   text-align: center;
   display: flex;
