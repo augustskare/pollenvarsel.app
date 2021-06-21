@@ -1,13 +1,13 @@
-import { LinksFunction, LoaderFunction, MetaFunction } from 'remix';
-import { Meta, Links, Scripts, LiveReload } from 'remix';
-import { Outlet } from 'react-router-dom';
+import { LinksFunction, LoaderFunction, MetaFunction } from "remix";
+import { Meta, Links, Scripts, LiveReload } from "remix";
+import { Outlet } from "react-router-dom";
 
-import stylesUrl from './styles/global.css';
+import stylesUrl from "./styles/global.css";
 
-import { name, description } from '../package.json';
+import { name, description } from "../package.json";
 
 export let links: LinksFunction = () => {
-  return [{ rel: 'stylesheet', href: stylesUrl }];
+  return [{ rel: "stylesheet", href: stylesUrl }];
 };
 
 export let loader: LoaderFunction = async () => {
@@ -17,17 +17,18 @@ export let loader: LoaderFunction = async () => {
 export let meta: MetaFunction = () => ({
   title: name,
   description,
-  'og:description': description,
-  'og:title': name,
-  'og:site_name': name,
+  "og:description": description,
+  "og:title": name,
+  "og:site_name": name,
 });
 
 function Document({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="nb">
+    <html lang="nb-NO">
       <head>
         <meta charSet="utf-8" />
         <link rel="icon" href="/favicon.png" type="image/png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
@@ -35,7 +36,7 @@ function Document({ children }: { children: React.ReactNode }) {
         {children}
 
         <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
+        {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>
   );
