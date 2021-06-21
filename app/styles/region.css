@@ -10,7 +10,7 @@
 }
 
 .tabs::before {
-  content: '';
+  content: "";
   background-color: var(--divider);
   width: 100%;
   height: 2px;
@@ -31,7 +31,7 @@
 .tab:not(:first-of-type) {
   margin-left: 0.5rem;
 }
-.tab[aria-selected='true'] {
+.tab[aria-selected="true"] {
   border-bottom: 2px solid;
 }
 

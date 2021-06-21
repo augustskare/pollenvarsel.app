@@ -9,7 +9,7 @@
     "start": "remix run -r dotenv/config",
     "build": "remix build",
     "run": "remix-serve build",
-    "format": "prettier --write app/**/*.{ts,tsx}"
+    "format": "prettier --write app"
   },
   "dependencies": {
     "@reach/tabs": "^0.15.0",
