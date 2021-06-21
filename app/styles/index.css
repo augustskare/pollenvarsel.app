@@ -2,15 +2,13 @@
   border-radius: 0.5rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   overflow: hidden;
-  composes: content from '../base.css';
-  composes: section from '../base.css';
 }
 
 .featured-inner {
   padding: 0.75rem;
 }
 
-.title {
+.title-1 {
   font-size: 1.125rem;
   margin-top: 0;
   margin-bottom: 0.5rem;
@@ -61,33 +59,4 @@
 
 .forcast-desc {
   margin-left: 0;
-}
-
-.section {
-  composes: section from '../base.css';
-}
-
-.heading {
-  composes: heading from '../base.css';
-}
-
-.list {
-  composes: content from '../base.css';
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.list-item {
-  margin: 0 0.75rem;
-  padding: 0.75rem 0;
-}
-.list-item:not(:last-of-type) {
-  border-bottom: 1px solid var(--divider);
-}
-
-.description {
-  font-size: var(--small);
-  color: var(--muted);
-  margin: 0.25rem 0 0;
 }
