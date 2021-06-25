@@ -6,7 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "remix run -r dotenv/config",
+    "start": "remix run",
     "build": "remix build",
     "run": "remix-serve build",
     "format": "prettier --write app"
