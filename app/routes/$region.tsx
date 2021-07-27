@@ -1,11 +1,18 @@
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
+
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 import { useRouteData } from "remix";
+
+import { withRequiredUser, withSession } from "../session";
+import { decrypt } from "../crypto";
+import { forecast } from "../forecast";
 
 import { Distribution } from "../components/distribution";
 import { Layout } from "../components/layout";
+
 import styles from "../styles/region.css";
-import { get } from "../data";
+
+export let handle = { hydrate: true };
 
 export let meta: MetaFunction = ({ data }) => {
   return {
@@ -17,11 +24,15 @@ export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
-export let loader: LoaderFunction = async ({ params }) => {
-  return get(params.region);
+export let loader: LoaderFunction = async ({ request, params }) => {
+  return withSession(request, (session) => {
+    return withRequiredUser(session, async (user) => {
+      return (await forecast(decrypt(user.apiKey))).region(params.region);
+    });
+  });
 };
 
-function Region() {
+export default function Region() {
   const region = useRouteData<Region>();
 
   return (
@@ -72,5 +83,3 @@ function Region() {
     </Layout>
   );
 }
-
-export default Region;

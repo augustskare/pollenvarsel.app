@@ -219,3 +219,14 @@ div[tabindex="-1"]:focus {
 [data-dist="3"] {
   --color-dist4: var(--light);
 }
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select {
+  font-size: 1.125rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--divider);
+  border-radius: 0.5rem;
+  width: 100%;
+}

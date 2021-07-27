@@ -1,19 +1,82 @@
-export function normalizeForecast(_forecast: RawRegion[]) {
-  let forecast: Record<number, Region> = {};
-  _forecast.forEach((day) => {
-    day.regions.forEach(({ name, id, ...region }) => {
-      forecast[id] = forecast[id] || {
+import parser from "fast-xml-parser";
+
+import {
+  arrayToSentence,
+  capitalize,
+  objectKeysToLowerCase,
+  slugify,
+  relativeTimeString,
+} from "./utils";
+
+export async function forecast(userKey: string) {
+  const endpoint = new URL(
+    "http://xml.pollenvarslingen.no/pollenvarsel.asmx/GetAllRegions"
+  );
+  endpoint.searchParams.set("userKey", userKey);
+
+  const resp = await fetch(endpoint.toString());
+  const xml = await resp.text();
+  const json = parser.parse(xml) as PollenvarselResponse;
+  const data = normalizeForecast(json);
+
+  return {
+    all: function all() {
+      return data;
+    },
+    index: function index(featured?: number) {
+      let regions = data.map((region) => {
+        return {
+          id: region.id,
+          name: region.name,
+          slug: region.slug,
+          description: region.forecast[0].description,
+        };
+      });
+
+      if (featured) {
+        regions = regions.filter((region) => region.id !== featured);
+        return {
+          regions,
+          featured: data.find((region) => region.id === featured),
+        };
+      }
+
+      return { regions, featured: undefined };
+    },
+    region: function region(slug: string) {
+      const region = data.find((region) => region.slug === slug);
+      if (!region) {
+        throw new Error(`${region}, region not found`);
+      }
+      return region;
+    },
+    regions: function regions() {
+      return data.map(({ name, id }) => ({ id, name }));
+    },
+  };
+}
+
+export function normalizeForecast(forecast: PollenvarselResponse): Region[] {
+  let data: Record<number, Region> = {};
+
+  forecast.RegionForecast.Days.RegionDay.forEach((day) => {
+    day.Regions.Region.forEach((region) => {
+      const id = region.Id;
+      const name = region.Name;
+      data[id] = data[id] || {
         id,
-        name,
+        name: name,
         forecast: [],
-        slug: toSlug(name),
+        slug: slugify(name),
       };
 
-      forecast[id].forecast.push({
-        date: day.date,
-        distribution: region.distribution,
-        description: formatDescription(region.pollen),
-        pollen: region.pollen.map(({ description, ...pollen }) => {
+      const pollen = region.PollenTypes.Pollen.map(objectKeysToLowerCase);
+
+      data[id].forecast.push({
+        date: relativeTimeString(new Date(day.Date)),
+        distribution: region.Distribution,
+        description: formatDescription(pollen),
+        pollen: pollen.map(({ description, ...pollen }) => {
           return {
             ...pollen,
             description: description.replace(" spredning", ""),
@@ -23,18 +86,10 @@ export function normalizeForecast(_forecast: RawRegion[]) {
     });
   });
 
-  return Object.entries(forecast).map(([_, f]) => f);
+  return Object.values(data);
 }
 
-export function objectKeysToLowerCase(obj: Record<string, any>) {
-  let newObj: Record<string, any> = {};
-  Object.entries(obj).forEach(([key, value]) => {
-    newObj[key.toLowerCase()] = value;
-  });
-  return newObj;
-}
-
-function formatDescription(pollen: Pollen[]) {
+function formatDescription(pollen: Region["forecast"][0]["pollen"]) {
   const distribution: Record<string, string[]> = {};
 
   pollen
@@ -55,19 +110,4 @@ function formatDescription(pollen: Pollen[]) {
     )
   );
   return capitalize(short_description.toLowerCase()) + ".";
-}
-
-function toSlug(string: string) {
-  return string.replace(/ø|Ø/g, "o").replace(/\s/g, "-").toLowerCase();
-}
-
-function capitalize(s: string) {
-  if (typeof s !== "string") return "";
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-function arrayToSentence(arr: string[]) {
-  // @ts-ignore
-  const formatter = new Intl.ListFormat("no");
-  return formatter.format(arr);
 }

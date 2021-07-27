@@ -1,5 +1,6 @@
-import { LinksFunction, LoaderFunction, MetaFunction } from "remix";
-import { Meta, Links, Scripts, LiveReload } from "remix";
+import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
+
+import { Meta, Links, Scripts, LiveReload, useMatches } from "remix";
 import { Outlet } from "react-router-dom";
 
 import stylesUrl from "./styles/global.css";
@@ -23,6 +24,9 @@ export let meta: MetaFunction = () => ({
 });
 
 function Document({ children }: { children: React.ReactNode }) {
+  const matches = useMatches();
+  const hydrate = matches.some((match) => match.handle?.hydrate);
+
   return (
     <html lang="nb-NO">
       <head>
@@ -35,7 +39,7 @@ function Document({ children }: { children: React.ReactNode }) {
       <body>
         {children}
 
-        <Scripts />
+        {hydrate && <Scripts />}
         {process.env.NODE_ENV === "development" && <LiveReload />}
       </body>
     </html>

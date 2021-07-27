@@ -1,3 +1,30 @@
+interface PollenvarselResponse {
+  RegionForecast: {
+    Days: {
+      RegionDay: {
+        Date: string;
+        Regions: {
+          Region: {
+            Id: number;
+            Name: string;
+            Description?: string;
+            Url: string;
+            PollenTypes: {
+              Pollen: {
+                Id: number;
+                Name: string;
+                Distribution: number;
+                Description: string;
+              }[];
+            };
+            Distribution: 0;
+          }[];
+        };
+      }[];
+    };
+  };
+}
+
 interface Region {
   id: number;
   name: string;
@@ -5,32 +32,19 @@ interface Region {
     date: string;
     distribution: number;
     description: string;
-    pollen: Pollen[];
+    pollen: {
+      name: string;
+      description: string;
+      distribution: number;
+      id: number;
+    }[];
   }[];
   slug: string;
 }
 
-interface Pollen {
+interface RegionPreview {
+  id: string;
+  slug: string;
   name: string;
   description: string;
-  distribution: number;
-  id: number;
-}
-
-interface RawRegion {
-  date: string;
-  regions: {
-    id: number;
-    name: string;
-    description: "";
-    url: string;
-    pollentypes: any;
-    distribution: number;
-    pollen: {
-      id: number;
-      name: string;
-      distribution: number;
-      description: string;
-    }[];
-  }[];
 }
