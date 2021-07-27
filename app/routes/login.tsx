@@ -1,46 +1,53 @@
-import { ActionFunction, redirect } from "remix";
-import { Layout } from "../components/layout";
-import { decrypt, encrypt } from "../crypto";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { redirect } from "remix";
+
+import { withSession, withUser } from "../session";
+import { decrypt } from "../crypto";
 import { db } from "../db";
 
-import { getSession, commitSession } from "../session";
+import { Layout } from "../components/layout";
 
 export const action: ActionFunction = async ({ request }) => {
-  let session = await getSession(request.headers.get("Cookie"));
-  const body = new URLSearchParams(await request.text());
+  return withSession(request, async (session) => {
+    const body = new URLSearchParams(await request.text());
 
-  const email = body.get("email");
-  const password = body.get("password");
-  if (email && password) {
-    console.log(email);
-    try {
-      const user = await db.user.findUnique({
-        where: {
-          email,
-        },
-      });
+    const email = body.get("email");
+    const password = body.get("password");
 
-      if (user && password === decrypt(user.password)) {
-        const userSession = await db.session.create({
-          data: {
-            userId: user.id,
-            expirationDate: new Date(),
+    if (email && password) {
+      try {
+        const user = await db.user.findUnique({
+          where: {
+            email,
           },
         });
 
-        session.set("session", userSession.id);
-        return redirect("/", {
-          headers: { "Set-Cookie": await commitSession(session) },
-        });
-      } else {
-        throw new Error("Invalid user");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+        if (user && password === decrypt(user.password)) {
+          const userSession = await db.session.create({
+            data: {
+              userId: user.id,
+              expirationDate: new Date(),
+            },
+          });
 
-  return "/login";
+          session.set("session", userSession.id);
+          return redirect("/");
+        } else {
+          throw new Error("Invalid user");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    return redirect("/login");
+  });
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+  return withSession(request, (session) => {
+    return withUser(session, (user) => (user ? redirect("/") : {}));
+  });
 };
 
 export default function Login() {

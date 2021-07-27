@@ -1,18 +1,12 @@
-import { json, redirect, useRouteData } from "remix";
 import type { ActionFunction, LoaderFunction } from "remix";
+
+import { json, redirect, useRouteData } from "remix";
+import { assert, define, object, size, string, StructError } from "superstruct";
+
 import { Layout } from "../components/layout";
 
 import { encrypt } from "../crypto";
 import { db } from "../db";
-import {
-  assert,
-  define,
-  is,
-  object,
-  size,
-  string,
-  StructError,
-} from "superstruct";
 
 var matcher =
   /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
@@ -25,7 +19,7 @@ const User = object({
   apiKey: size(string(), 1, Infinity),
 });
 
-import { getSession, commitSession } from "../session";
+import { withSession } from "../session";
 import { Prisma } from "@prisma/client";
 
 async function createUser(body: URLSearchParams) {
@@ -64,35 +58,23 @@ async function createUser(body: URLSearchParams) {
 }
 
 export const action: ActionFunction = async ({ request }) => {
-  let session = await getSession(request.headers.get("Cookie"));
-  const body = new URLSearchParams(await request.text());
+  return withSession(request, async (session) => {
+    const body = new URLSearchParams(await request.text());
 
-  try {
-    await createUser(body);
-    return "/";
-  } catch (error) {
-    session.flash("error", error);
-    return redirect("/signup", {
-      headers: {
-        "Set-Cookie": await commitSession(session),
-      },
-    });
-  }
+    try {
+      await createUser(body);
+      return "/";
+    } catch (error) {
+      session.flash("error", error);
+      return redirect("/signup");
+    }
+  });
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const error = session.get("error");
-  const data = session.get("data");
-
-  return json(
-    { error, data },
-    {
-      headers: {
-        "Set-Cookie": await commitSession(session),
-      },
-    }
-  );
+  return withSession(request, (session) => {
+    return json({ error: session.get("error"), data: session.get("data") });
+  });
 };
 
 function Signup() {

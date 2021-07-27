@@ -1,42 +1,42 @@
-import { User } from "@prisma/client";
-import { ActionFunction, LoaderFunction, useRouteData } from "remix";
-import { Layout } from "../components/layout";
-import { get } from "../data";
+import type { User } from "@prisma/client";
+import type { ActionFunction, LoaderFunction } from "remix";
+
+import { useRouteData, redirect } from "remix";
+
+import { decrypt } from "../crypto";
 import { db } from "../db";
-import { getSession } from "../session";
+import { forecast } from "../forecast";
+import { withRequiredUser, withSession } from "../session";
+
+import { Layout } from "../components/layout";
 
 export const action: ActionFunction = async ({ request }) => {
-  const body = new URLSearchParams(await request.text());
-  const region = body.get("region");
+  return withSession(request, (session) => {
+    return withRequiredUser(session, async (user) => {
+      const body = new URLSearchParams(await request.text());
+      const region = body.get("region")
+        ? parseInt(body.get("region") as string, 10)
+        : null;
 
-  const session = await getSession(request.headers.get("Cookie"));
-  const t = session.get("session");
-  const s = await db.session.findUnique({ where: { id: t } });
-  if (s) {
-    await db.user.update({
-      where: { id: s.userId },
-      data: { region },
+      await db.user.update({
+        where: { id: user.id },
+        data: { region, email: body.get("email")! },
+      });
+      return redirect("/profil");
     });
-  }
-
-  return "/profil";
+  });
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const t = session.get("session");
-  const data = await get();
-  const s = await db.session.findUnique({ where: { id: t } });
-  if (s) {
-    const user = await db.user.findUnique({ where: { id: s.userId } });
-
-    return {
-      user: { email: user?.email, region: user?.region },
-      regions: data,
-    };
-  }
-
-  return {};
+  return withSession(request, (session) => {
+    return withRequiredUser(session, async (user) => {
+      const regions = (await forecast(decrypt(user.apiKey))).regions();
+      return {
+        user: { email: user.email, region: user.region },
+        regions,
+      };
+    });
+  });
 };
 
 export default function Profile() {
@@ -45,6 +45,13 @@ export default function Profile() {
   return (
     <Layout title={user.email}>
       <form className="content" method="post" style={{ padding: ".75rem" }}>
+        <Input
+          label="E-post"
+          name="email"
+          type="email"
+          defaultValue={user.email}
+        />
+
         <label
           style={{ marginBottom: ".25rem", display: "block" }}
           className="heading"
@@ -67,6 +74,27 @@ export default function Profile() {
         </select>
         <input type="submit" value="Oppdater profil" />
       </form>
+
+      <form action="/signout" method="post">
+        <button type="submit">Logg ut</button>
+      </form>
     </Layout>
+  );
+}
+
+function Input({ label, error, ...props }) {
+  return (
+    <div style={{ marginBottom: ".5rem" }}>
+      <label
+        style={{ marginBottom: ".25rem", display: "block" }}
+        className="heading"
+        htmlFor={props.id}
+      >
+        {label}
+      </label>
+      <input {...props} />
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
   );
 }

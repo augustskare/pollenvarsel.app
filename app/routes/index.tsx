@@ -1,56 +1,45 @@
-import { LoaderFunction, LinksFunction, redirect } from "remix";
+import type { LoaderFunction, LinksFunction } from "remix";
 import { useRouteData } from "remix";
 import { Link } from "react-router-dom";
+
+import { withRequiredUser, withSession } from "../session";
+import { decrypt } from "../crypto";
+import { forecast } from "../forecast";
 
 import { Layout } from "../components/layout";
 import { Distribution } from "../components/distribution";
 
-import { get } from "../data";
-
 import styles from "../styles/index.css";
-import { getSession } from "../session";
-import { db } from "../db";
 
 export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: styles }];
 };
 
-async function withUser(request: Request) {}
-
 export let loader: LoaderFunction = async ({ request }) => {
-  const session = await getSession(request.headers.get("Cookie"));
-  const t = session.get("session");
-
-  try {
-    const s = await db.session.findUnique({ where: { id: t } });
-    const user = await db.user.findUnique({ where: { id: s?.userId } });
-    const regions = await get();
-    return {
-      regions,
-      region: user?.region,
-    };
-  } catch (error) {
-    return redirect("/login");
-  }
+  return withSession(request, (session) => {
+    return withRequiredUser(session, async (user) => {
+      const region = user.region || undefined;
+      return (await forecast(decrypt(user.apiKey))).index(region);
+    });
+  });
 };
 
-function Index() {
-  let data = useRouteData<{ regions: Region[]; region?: string }>();
-  const featured = data.regions.find((r) => r.id.toString() === data?.region);
+export default function Index() {
+  let data = useRouteData<{ regions: RegionPreview[]; featured?: Region }>();
 
   return (
     <Layout>
       <Link to="profil">Profil</Link>
-      {featured && (
+      {data.featured && (
         <section className="section">
           <h2 className="heading">Din plassering</h2>
 
           <div className="featured section content">
             <div className="featured-inner">
-              <p className="title-1">{featured.name}</p>
+              <p className="title-1">{data.featured.name}</p>
 
               <dl className="forcast">
-                {featured.forecast[0].pollen.map((pollen) => {
+                {data.featured.forecast[0].pollen.map((pollen) => {
                   return (
                     <div key={pollen.id} className="forcast-item">
                       <Distribution large dist={pollen.distribution} />
@@ -64,8 +53,8 @@ function Index() {
               </dl>
             </div>
 
-            <Link className="link" to={`/${featured.slug}`}>
-              Fullstendig varsel for {featured.name}
+            <Link className="link" to={`/${data.featured.slug}`}>
+              Fullstendig varsel for {data.featured.name}
             </Link>
           </div>
         </section>
@@ -79,7 +68,7 @@ function Index() {
             return (
               <li key={region.id} className="list-item">
                 <Link to={region.slug}>{region.name}</Link>
-                <p className="description">{region.forecast[0].description}</p>
+                <p className="description">{region.description}</p>
               </li>
             );
           })}
@@ -88,5 +77,3 @@ function Index() {
     </Layout>
   );
 }
-
-export default Index;
